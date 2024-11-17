@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bumperbot">
+
+    <xacro:arg name="is_sim" default="true"/>
+
+    <xacro:include filename="$(find bumperbot_description)/urdf/bumperbot_gazebo.xacro"/>
+    <xacro:include filename="$(find bumperbot_description)/urdf/bumperbot_ros2_control.xacro"/>
+
+    <link name="base_footprint"/>
+
+
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0 0 0.04" rpy="0.0 0.25 0.3" />
+            <mass value="8.257e-01"/>
+            <inertia ixx="2.212e-02" ixy="0" ixz="0"
+                    iyy="2.119e-02" iyz="0"
+                    izz="2.0064e-02" />
+        </inertial>
+        <visual>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/base_link.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0.033"/>
+    </joint>
+
+
+    <link name="right_wheel">
+        <inertial>
+            <origin xyz="0 -0.014 0" rpy="1.57 0 0" />
+            <mass value="0.053" />
+            <inertia ixx="1.882E-05" ixy="0" ixz="0"
+                    iyy="3.115E-05" iyz="0"
+                    izz="1.88E-05" />
+        </inertial>
+        <visual>
+            <origin rpy= "1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/wheel_right_link.STL"/>
+            </geometry>
+            
+        </visual>
+        <collision>
+            <origin rpy= "1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.033"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <axis xyz="0 1 0"/>
+        <origin rpy="0 0 0" xyz="0 -0.07 0"/>
+    </joint>
+
+
+    <link name="left_wheel">
+        <inertial>
+            <origin xyz="0 0.014 0" rpy="-1.57 0 0" />
+            <mass value="0.053" />
+            <inertia ixx="1.879E-05"  ixy="0" ixz="0"
+                    iyy="3.115E-05" iyz="0"
+                    izz="1.882E-05" />
+        </inertial>
+        <visual>
+            <origin rpy= "-1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/wheel_left_link.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy= "-1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.033"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel"/>
+        <axis xyz="0 1 0"/>
+        <origin rpy="0 0 0" xyz="0 0.07 0"/>
+    </joint>
+
+
+    <link name="caster_front_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.443E-06" />
+            <inertia ixx="7.23E-11" ixy="0" ixz="0"
+                    iyy="3.871E-11"  iyz="0"
+                    izz="1.01E-10" />
+        </inertial>
+        <visual>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/caster_front_link.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.005"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="caster_front_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_front_link"/>
+        <origin rpy="0 0 0" xyz="0.04755 0 -0.0279"/>
+    </joint>
+
+
+    <link name="caster_rear_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.443E-06" />
+            <inertia ixx="7.23E-11" ixy="0" ixz="0"
+                    iyy="3.87E-11" iyz="0"
+                    izz="1.01E-10" />
+        </inertial>
+        <visual>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/caster_rear_link.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.005"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="caster_rear_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_rear_link"/>
+        <origin rpy="0 0 0" xyz="-0.04755 0 -0.0279"/>
+    </joint>
+
+    <link name="imu_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.00053" />
+            <inertia ixx="1.46E-08" ixy="0" ixz="0"
+                    iyy="8.6E-09" iyz="0"
+                    izz="2.303E-08" />
+        </inertial>
+        <visual>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/imu_link.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy= "0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.005"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0.07"/>
+    </joint>
+
+    <link name="laser_link">
+        <inertial>
+            <origin xyz="-0.011945780406062 -0.000381929217680526 -0.0170649378129477" rpy="0 0 0" />
+            <mass value="0.073084435549317" />
+            <inertia ixx="1.96074931730795E-05" ixy="-3.62091076640009E-07" ixz="4.28230084046735E-07"
+                    iyy="2.40983835136327E-05" iyz="1.50180909250652E-08"
+                    izz="4.14184164228595E-05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/laser_link.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://bumperbot_description/meshes/laser_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="laser_joint" type="fixed">
+        <origin xyz="-0.0050526 -0.0023221 0.1208" rpy="0 0 3.14" />
+        <parent link="base_link" />
+        <child link="laser_link" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+</robot>

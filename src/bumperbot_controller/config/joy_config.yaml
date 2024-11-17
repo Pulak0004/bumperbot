@@ -1,0 +1,7 @@
+joystick:
+  ros__parameters:
+    device_id: 0
+    device_name: ""
+    autorepeat_rate: 20.0
+    sticky_button: false
+    coalesce_interval_ms: 1
